@@ -152,8 +152,12 @@ func equation() {
 			rightVar += addNum
 		}
 	}
-	fmt.Print("x = ")
-	fmt.Println(float32(rightNum-leftNum) / float32(leftVar-rightVar))
+	if variable == "" || (leftVar-rightVar) == 0 {
+		fmt.Println("Equation not solvable.")
+	} else {
+		fmt.Print(variable + " = ")
+		fmt.Println(float32(rightNum-leftNum) / float32(leftVar-rightVar))
+	}
 }
 
 func main() {
