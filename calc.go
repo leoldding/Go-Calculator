@@ -332,6 +332,8 @@ func calculate(equation string, channel chan map[int]float32, errChan chan strin
 			} else {
 				if num == "" { // variable without constant
 					num = "1"
+				} else if num == "-" {
+					num = "-1"
 				}
 				if string(equation[i+1]) != "^" { // check if power follows variable
 					power = 1
