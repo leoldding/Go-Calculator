@@ -11,6 +11,7 @@ import (
 )
 
 var wg sync.WaitGroup
+var variable string
 
 // basic calculator function
 func basic() {
@@ -68,11 +69,10 @@ func operate(operator string, firstNum float32, secondNum float32) float32 {
 func solve() {
 	scanner := bufio.NewScanner(os.Stdin)
 
-	fmt.Print("Only linear equations.\nOnly use a single type of variable.\nOnly addition supported right now.\n")
 	fmt.Print("Enter equation: ")
 	scanner.Scan()
 
-	variable := ""
+	variable = ""
 	left := true
 	leftNum := 0
 	rightNum := 0
@@ -275,9 +275,9 @@ func simplify() {
 				fmt.Print(" - ")
 				fmt.Print(leftVals[keys[i]] * -1)
 				if keys[i] == 1 { // power of one
-					fmt.Print("x")
+					fmt.Print(variable)
 				} else if keys[i] != 0 { // non-zero powers
-					fmt.Print("x^(")
+					fmt.Print(variable + "^(")
 					fmt.Print(keys[i])
 					fmt.Print(")")
 				}
@@ -285,9 +285,9 @@ func simplify() {
 				fmt.Print(" + ")
 				fmt.Print(leftVals[keys[i]])
 				if keys[i] == 1 { // power of one
-					fmt.Print("x")
+					fmt.Print(variable)
 				} else if keys[i] != 0 { // non-zero powers
-					fmt.Print("x^(")
+					fmt.Print(variable + "^(")
 					fmt.Print(keys[i])
 					fmt.Print(")")
 				}
@@ -306,7 +306,7 @@ func calculate(equation string, channel chan map[int]float32, errChan chan strin
 	var numbers []float32           // array to track constants of each term
 	var operations []string         // array to track operations between terms
 	var power int64 = 0
-	var variable = ""
+	variable = ""
 	var val int64
 	num := ""
 	pointer := 0 // indexing variable for processing later
