@@ -273,20 +273,34 @@ func simplify() {
 		for i := len(keys) - 1; i >= 0; i-- {
 			if leftVals[keys[i]] < 0 { // negative values
 				fmt.Print(" - ")
-				fmt.Print(leftVals[keys[i]] * -1)
-				if keys[i] == 1 { // power of one
+				if keys[i] == 0 { // constants
+					fmt.Print(leftVals[keys[i]] * -1)
+				} else if keys[i] == 1 { // power of one
+					if leftVals[keys[i]] != -1 {
+						fmt.Print(leftVals[keys[i]] * -1)
+					}
 					fmt.Print(variable)
 				} else if keys[i] != 0 { // non-zero powers
+					if leftVals[keys[i]] != -1 {
+						fmt.Print(leftVals[keys[i]] * -1)
+					}
 					fmt.Print(variable + "^(")
 					fmt.Print(keys[i])
 					fmt.Print(")")
 				}
 			} else if leftVals[keys[i]] > 0 { // positive values
 				fmt.Print(" + ")
-				fmt.Print(leftVals[keys[i]])
-				if keys[i] == 1 { // power of one
+				if keys[i] == 0 { // constants
+					fmt.Print(leftVals[keys[i]])
+				} else if keys[i] == 1 { // power of one
+					if leftVals[keys[i]] != 1 {
+						fmt.Print(leftVals[keys[i]])
+					}
 					fmt.Print(variable)
 				} else if keys[i] != 0 { // non-zero powers
+					if leftVals[keys[i]] != 1 {
+						fmt.Print(leftVals[keys[i]])
+					}
 					fmt.Print(variable + "^(")
 					fmt.Print(keys[i])
 					fmt.Print(")")
