@@ -65,117 +65,6 @@ func operate(operator string, firstNum float32, secondNum float32) float32 {
 	return -1.0
 }
 
-// solver for linear equations with positive values
-func solve() {
-	scanner := bufio.NewScanner(os.Stdin)
-
-	fmt.Print("Enter equation: ")
-	scanner.Scan()
-
-	variable = ""
-	left := true
-	leftNum := 0
-	rightNum := 0
-	curNum := ""
-	leftVar := 0
-	rightVar := 0
-	operation := "" // var num
-
-	for _, char := range strings.ToLower(scanner.Text()) {
-		switch {
-		case char >= 97 && char <= 122: // letters
-			if variable != "" && variable != string(char) {
-				fmt.Println("Variable already set to " + variable)
-				return
-			}
-			variable = string(char)
-			if operation != "var" {
-				operation = "var"
-			} else {
-				fmt.Println("Multiple variables in one term!")
-				return
-			}
-		case char >= 48 && char <= 57: // digits
-			curNum += string(char)
-			if operation != "var" {
-				operation = "num"
-			}
-		case char == 43: // plus sign
-			addNum, _ := strconv.Atoi(curNum)
-			curNum = ""
-			switch {
-			case left && operation == "num":
-				leftNum += addNum
-			case left && operation == "var":
-				if addNum == 0 {
-					leftVar += 1
-				} else {
-					leftVar += addNum
-				}
-			case !left && operation == "num":
-				rightNum += addNum
-			case !left && operation == "var":
-				if addNum == 0 {
-					rightVar += 1
-				} else {
-					rightVar += addNum
-				}
-			}
-			operation = ""
-		case char == 61: // equal sign
-			addNum, _ := strconv.Atoi(curNum)
-			curNum = ""
-			switch {
-			case left && operation == "num":
-				leftNum += addNum
-			case left && operation == "var":
-				if addNum == 0 {
-					leftVar += 1
-				} else {
-					leftVar += addNum
-				}
-			case !left && operation == "num":
-				rightNum += addNum
-			case !left && operation == "var":
-				if addNum == 0 {
-					rightVar += 1
-				} else {
-					rightVar += addNum
-				}
-			}
-			operation = ""
-			if left {
-				left = false
-			} else {
-				fmt.Println("Not an equation (too many ='s).")
-				return
-			}
-		case char == 32: // space
-			continue
-		default:
-			fmt.Print("Invalid value: ")
-			fmt.Println(string(char))
-			return
-		}
-	}
-	addNum, _ := strconv.Atoi(curNum)
-	if operation == "num" {
-		rightNum += addNum
-	} else {
-		if addNum == 0 {
-			rightVar += 1
-		} else {
-			rightVar += addNum
-		}
-	}
-	if variable == "" || (leftVar-rightVar) == 0 {
-		fmt.Println("Equation not solvable.")
-	} else {
-		fmt.Print(variable + " = ")
-		fmt.Println(float32(rightNum-leftNum) / float32(leftVar-rightVar))
-	}
-}
-
 // simplifies any polynomial or polynomial equation regardless of power
 func simplify() {
 	scanner := bufio.NewScanner(os.Stdin)
@@ -456,7 +345,7 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	// input of calculator type
-	fmt.Print("[Basic], [Simplify], or [Solve]: ")
+	fmt.Print("[Basic] or [Simplify]")
 	scanner.Scan()
 
 	switch strings.ToLower(scanner.Text()) {
@@ -464,8 +353,6 @@ func main() {
 		basic()
 	case "simplify":
 		simplify()
-	case "solve":
-		solve()
 	default:
 		fmt.Println("Not a valid input!")
 	}

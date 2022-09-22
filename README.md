@@ -16,10 +16,5 @@ This project was an exercise to practice Go.
 - Supports addition, subtraction, multiplication, and division.
 - Negative and decimal numbers are supported.
 
-### Solver: 
-- Solves linear equations. 
-- Only supports addition as of now.
-- Negative and decimal numbers are not supported.
-
 ## Run Program
 To run the program, use ***go run calc.go*** in a terminal and follow prompts.
