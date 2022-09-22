@@ -273,36 +273,36 @@ func simplify() {
 		for i := len(keys) - 1; i >= 0; i-- {
 			if leftVals[keys[i]] < 0 { // negative values
 				fmt.Print(" - ")
-				if keys[i] == 0 { // constants
+				if keys[i]-keys[0] == 0 { // constants
 					fmt.Print(leftVals[keys[i]] * -1)
-				} else if keys[i] == 1 { // power of one
+				} else if keys[i]-keys[0] == 1 { // power of one
 					if leftVals[keys[i]] != -1 {
 						fmt.Print(leftVals[keys[i]] * -1)
 					}
 					fmt.Print(variable)
-				} else if keys[i] != 0 { // non-zero powers
+				} else if keys[i]-keys[0] != 0 { // non-zero powers
 					if leftVals[keys[i]] != -1 {
 						fmt.Print(leftVals[keys[i]] * -1)
 					}
 					fmt.Print(variable + "^(")
-					fmt.Print(keys[i])
+					fmt.Print(keys[i] - keys[0])
 					fmt.Print(")")
 				}
 			} else if leftVals[keys[i]] > 0 { // positive values
 				fmt.Print(" + ")
-				if keys[i] == 0 { // constants
+				if keys[i]-keys[0] == 0 { // constants
 					fmt.Print(leftVals[keys[i]])
-				} else if keys[i] == 1 { // power of one
+				} else if keys[i]-keys[0] == 1 { // power of one
 					if leftVals[keys[i]] != 1 {
 						fmt.Print(leftVals[keys[i]])
 					}
 					fmt.Print(variable)
-				} else if keys[i] != 0 { // non-zero powers
+				} else if keys[i]-keys[0] != 0 { // non-zero powers
 					if leftVals[keys[i]] != 1 {
 						fmt.Print(leftVals[keys[i]])
 					}
 					fmt.Print(variable + "^(")
-					fmt.Print(keys[i])
+					fmt.Print(keys[i] - keys[0])
 					fmt.Print(")")
 				}
 			}
@@ -359,7 +359,7 @@ func calculate(equation string, channel chan map[int]float32, errChan chan strin
 					count := 0 // moves index i to correct spot after finding power
 					// find the power of the variable
 					for j := i + 2; j < len(equation); j++ {
-						if equation[j] < 48 || equation[j] > 57 {
+						if (equation[j] < 48 || equation[j] > 57) && equation[j] != 45 {
 							break
 						}
 						count += 1
@@ -446,9 +446,9 @@ func calculate(equation string, channel chan map[int]float32, errChan chan strin
 	for i := 0; i < len(numbers); i++ {
 		values[int(powers[i])] += numbers[i]
 	}
-
 	// send values back through channel
 	channel <- values
+
 END:
 }
 
